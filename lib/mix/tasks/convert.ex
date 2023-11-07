@@ -9,6 +9,6 @@ defmodule Mix.Tasks.Convert do
     Application.ensure_all_started(:asterion)
     Asterion.load_all()
 
-    Mix.shell().cmd("cd priv/export/ && zip -r ../../asterion.zip *")
+    Mix.shell().cmd("cd priv/export/ && zip -r ../asterion.zip *")
   end
 end

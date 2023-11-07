@@ -1,5 +1,5 @@
 defmodule Asterion do
-  @source "priv/sources/Siomenuv_archiv_v2.xlsx"
+  @source "priv/sources/archive.xlsx"
 
   @sig_place %{
     1 => "centrální metropole",

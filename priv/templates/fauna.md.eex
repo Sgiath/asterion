@@ -1,0 +1,11 @@
+---
+oblast výskytu: "[[<%= geo %>]]"
+druh: <%= kind %>
+prameny:
+  <%= for source <- sources do %>
+    - <%= source %>
+  <% end %>
+tags:
+  - fauna
+---
+<%= description %>

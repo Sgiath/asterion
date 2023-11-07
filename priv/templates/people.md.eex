@@ -1,0 +1,15 @@
+---
+pohlaví: <%= sex %>
+rasa: "[[<%= race %>]]"
+geografická oblast: "[[<%= place %>]]"
+příslušnost: "[[<%= organization %>]]"
+status: <%= status %>
+význam: "[[<%= significance %>]]"
+prameny:
+  <%= for source <- sources do %>
+    - <%= source %>
+  <% end %>
+tags:
+  - postava
+---
+<%= description %>

@@ -1,0 +1,11 @@
+---
+umístění: "[[<%= place %>]]"
+druh: <%= kind %>
+prameny:
+  <%= for source <- sources do %>
+    - <%= source %>
+  <% end %>
+tags:
+  - artefakt
+---
+<%= description %>

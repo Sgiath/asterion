@@ -1,0 +1,13 @@
+---
+geografická oblast: "[[<%= geo %>]]"
+území: "[[<%= place %>]]"
+správní celek: "[[<%= ruler %>]]"
+význam: "[[<%= significance %>]]"
+prameny:
+  <%= for source <- sources do %>
+    - <%= source %>
+  <% end %>
+tags:
+  - sídlo
+---
+<%= description %>

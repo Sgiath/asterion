@@ -1,0 +1,4 @@
+%{
+  "erlsom": {:hex, :erlsom, "1.5.1", "c8fe2babd33ff0846403f6522328b8ab676f896b793634cfe7ef181c05316c03", [:rebar3], [], "hexpm", "7965485494c5844dd127656ac40f141aadfa174839ec1be1074e7edf5b4239eb"},
+  "xlsxir": {:hex, :xlsxir, "1.6.4", "d1e69439cbd9edc1190950f9f883ac364e1f31641e0395ccdb27761791b169a3", [:mix], [{:erlsom, "~> 1.5", [hex: :erlsom, repo: "hexpm", optional: false]}], "hexpm", "38e91f65eb8a4c8dea07d941c8b7e21baf8c8d4938232395c9ffd19d2eb071f2"},
+}

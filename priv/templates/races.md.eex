@@ -1,0 +1,11 @@
+---
+geografická oblast: "[[<%= geo %>]]"
+druh: <%= kind %>
+prameny:
+  <%= for source <- sources do %>
+    - <%= source %>
+  <% end %>
+tags:
+  - rasa
+---
+<%= description %>

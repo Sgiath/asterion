@@ -1,0 +1,20 @@
+---
+aliases:
+  <%= for al <- aliases do %>
+    - <%= al %>
+  <% end %>
+vedení: "[[<%= leadership %>]]"
+sídlo: "[[<%= place %>]]"
+působnost: "[[<%= geo %>]]"
+obor:
+  <%= for exp <- expertise do %>
+    - <%= exp %>
+  <% end %>
+prameny:
+  <%= for source <- sources do %>
+    - <%= source %>
+  <% end %>
+tags:
+  - organizace
+---
+<%= description %>

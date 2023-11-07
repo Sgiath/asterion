@@ -27,5 +27,4 @@ asterion-*.tar
 
 # exported files
 /priv/export/
-!/priv/export/.gitkeep
 *.zip

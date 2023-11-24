@@ -5,11 +5,11 @@ geografická oblast: "[[<%= place %>]]"
 příslušnost: "[[<%= organization %>]]"
 status: <%= status %>
 význam: "[[<%= significance %>]]"
-prameny:
-  <%= for source <- sources do %>
-    - <%= source %>
-  <% end %>
-tags:
-  - postava
+
+prameny: <%= inspect(sources) %>
+tags: [postava]
+aliases:
 ---
+# <%= name %>
+
 <%= description %>

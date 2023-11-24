@@ -26,5 +26,8 @@ asterion-*.tar
 /tmp/
 
 # exported files
-/priv/export/
+/priv/export/*
+!/priv/export/.obsidian/
+!/priv/export/_templates/
+/priv/export/.obsidian/workspace.json
 *.zip

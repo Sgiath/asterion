@@ -2,10 +2,9 @@
 druh: <%= kind %>
 emoce: <%= emotion %>
 moc: <%= power %>
-prameny:
-  <%= for source <- sources do %>
-    - <%= source %>
-  <% end %>
-tags:
-  - myšlenková-bytost
+
+prameny: <%= inspect(sources) %>
+tags: [myšlenková_bytost]
+aliases:
 ---
+# <%= name %>

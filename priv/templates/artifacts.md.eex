@@ -1,11 +1,10 @@
 ---
 umístění: "[[<%= place %>]]"
-druh: <%= kind %>
-prameny:
-  <%= for source <- sources do %>
-    - <%= source %>
-  <% end %>
-tags:
-  - artefakt
+
+prameny: <%= inspect(sources) %>
+tags: [artefakt/<%= kind %>]
+aliases:
 ---
+# <%= name %>
+
 <%= description %>

@@ -1,11 +1,10 @@
 ---
 geografická oblast: "[[<%= geo %>]]"
-druh: <%= kind %>
-prameny:
-  <%= for source <- sources do %>
-    - <%= source %>
-  <% end %>
-tags:
-  - rasa
+
+prameny: <%= inspect(sources) %>
+tags: [rasa/<%= kind %>]
+aliases:
 ---
+# <%= name %>
+
 <%= description %>

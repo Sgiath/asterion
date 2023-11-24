@@ -2,12 +2,11 @@
 geografická oblast: "[[<%= geo %>]]"
 území: "[[<%= place %>]]"
 správní celek: "[[<%= ruler %>]]"
-význam: "[[<%= significance %>]]"
-prameny:
-  <%= for source <- sources do %>
-    - <%= source %>
-  <% end %>
-tags:
-  - sídlo
+
+prameny: <%= inspect(sources) %>
+tags: [sídlo/<%= significance %>]
+aliases:
 ---
+# <%= name %>
+
 <%= description %>

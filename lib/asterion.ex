@@ -77,9 +77,9 @@ defmodule Asterion do
   def places([name, geo, place, ruler, description, sig, sources | _rest]) do
     [
       name: name,
-      geo: geo,
-      place: place,
-      ruler: ruler,
+      geo: normalize_unknown(geo),
+      place: normalize_unknown(place),
+      ruler: normalize_unknown(ruler),
       description: description,
       significance: @sig_place[sig],
       sources: format_sources(sources)
@@ -90,9 +90,9 @@ defmodule Asterion do
     [
       name: name,
       sex: sex,
-      race: race,
-      place: place,
-      organization: org,
+      race: normalize_unknown(race),
+      place: normalize_unknown(place),
+      organization: normalize_unknown(org),
       description: desc,
       status: @status[status],
       significance: @sig_person[sig],
@@ -106,9 +106,9 @@ defmodule Asterion do
     [
       name: name,
       aliases: aliases,
-      leadership: leadership,
-      place: place,
-      geo: geo,
+      leadership: normalize_unknown(leadership),
+      place: normalize_unknown(place),
+      geo: normalize_unknown(geo),
       expertise: String.split(expertise, ", "),
       description: desc,
       sources: format_sources(sources)
@@ -118,7 +118,7 @@ defmodule Asterion do
   def races([name, geo, kind, desc, sources | _rest]) do
     [
       name: name,
-      geo: geo,
+      geo: normalize_unknown(geo),
       kind: kind,
       description: desc,
       sources: format_sources(sources)
@@ -128,8 +128,8 @@ defmodule Asterion do
   def fauna([name, kind, desc, geo, sources | _unique]) do
     [
       name: name,
-      geo: geo,
-      kind: kind,
+      geo: normalize_unknown(geo),
+      kind: normalize_unknown(kind),
       description: desc,
       sources: format_sources(sources)
     ]
@@ -148,7 +148,7 @@ defmodule Asterion do
   def artifacts([name, place, kind, desc, sources | _rest]) do
     [
       name: name,
-      place: place,
+      place: normalize_unknown(place),
       kind: kind,
       description: desc,
       sources: format_sources(sources)
@@ -166,8 +166,16 @@ defmodule Asterion do
     |> Enum.map(&String.trim/1)
     |> Enum.map(&format_source/1)
     |> Enum.reject(&is_nil/1)
-    |> Enum.map(fn {s, p} -> "#{s} #{p}" end)
+    |> Enum.map(fn
+      {s, nil} -> s
+      {s, p} -> "#{s} #{p}"
+    end)
   end
+
+  defp normalize_unknown("?"), do: ""
+  defp normalize_unknown("x"), do: ""
+  defp normalize_unknown("nezávislý"), do: ""
+  defp normalize_unknown(known), do: known
 
   defp format_source("DD " <> pages), do: {"Dech Draka", pages}
   defp format_source("P " <> pages), do: {"Pevnost", pages}
@@ -175,7 +183,7 @@ defmodule Asterion do
   defp format_source("Pat " <> pages), do: {"Petreon", pages}
   defp format_source("HM " <> pages), do: {"Hlavní modul", pages}
   defp format_source("D " <> pages), do: {"Dálavy", pages}
-  defp format_source("ČT  " <> pages), do: {"Čas temna", pages}
+  defp format_source("ČT " <> pages), do: {"Čas temna", pages}
   defp format_source("NS " <> pages), do: {"Nemrtví a světlonoši", pages}
   defp format_source("PP " <> pages), do: {"Písky proroctví", pages}
   defp format_source("VTB " <> pages), do: {"Vzestup temných bohů", pages}
@@ -195,9 +203,9 @@ defmodule Asterion do
   defp format_source("MP " <> pages), do: {"Město přízraků", pages}
   defp format_source("CS " <> pages), do: {"Cesty snů", pages}
   defp format_source("ZM " <> pages), do: {"Zpívající meč: Čajový drak a kočičí démon", pages}
-  defp format_source("ŠVZ " <> pages), do: {"Stíny Erinu: Šíp v zádech", pages}
+  defp format_source("ŠVZ"), do: {"Stíny Erinu: Šíp v zádech", nil}
   defp format_source("HH " <> pages), do: {"Krumpáč a motyky: Hrobnické historky", pages}
-  defp format_source("PZ " <> pages), do: {"Pevnost zoufalství", pages}
+  defp format_source("PZ"), do: {"Pevnost zoufalství", nil}
   defp format_source("Marellion " <> pages), do: {"Marellion", pages}
   defp format_source("Louskáček " <> pages), do: {"Louskáček", pages}
   defp format_source("VVP " <> pages), do: {"Vločka v plamenech", pages}

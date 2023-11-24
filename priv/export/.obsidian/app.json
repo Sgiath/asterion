@@ -1,5 +1,6 @@
 {
   "tabSize": 2,
   "trashOption": "none",
-  "alwaysUpdateLinks": true
+  "alwaysUpdateLinks": true,
+  "promptDelete": false
 }

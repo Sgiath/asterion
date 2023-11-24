@@ -30,4 +30,4 @@ jobs:
 
       - uses: ncipollo/release-action@v1
         with:
-          artifacts: "priv/sources/archive.xlsx,priv/asterion.zip"
+          artifacts: "priv/sources/Siomenuv_archiv_v*.xlsx,priv/asterion.zip"

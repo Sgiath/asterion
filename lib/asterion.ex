@@ -240,10 +240,13 @@ defmodule Asterion do
   defp normalize_unknown("x"), do: ""
   defp normalize_unknown("nezávislý"), do: ""
   defp normalize_unknown("klan"), do: ""
+  defp normalize_unknown("kmen"), do: ""
   defp normalize_unknown("nestálá"), do: ""
+  defp normalize_unknown("nestálý"), do: ""
   defp normalize_unknown("rozné"), do: ""
   defp normalize_unknown("větší města"), do: ""
   defp normalize_unknown("na cestách"), do: ""
+  defp normalize_unknown("různá místa"), do: ""
   defp normalize_unknown("dříve " <> _any), do: ""
   defp normalize_unknown(known), do: known
 

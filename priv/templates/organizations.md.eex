@@ -1,8 +1,13 @@
 ---
-vedení: "[[<%= leadership %>]]"
-sídlo: "[[<%= place %>]]"
-působnost: "[[<%= geo %>]]"
-
+vedení:
+  <%= for l <- leadership do %>- "[[<%= l %>]]"
+  <% end %>
+sídlo:
+  <%= for p <- place do %>- "[[<%= p %>]]"
+  <% end %>
+působnost:
+  <%= for g <- geo do %>- "[[<%= g %>]]"
+  <% end %>
 prameny: <%= inspect(sources) %>
 tags: <%= expertise |> Enum.map(&"organizace/#{&1}") |> inspect() %>
 aliases: <%= inspect(aliases) %>

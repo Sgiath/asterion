@@ -5,7 +5,7 @@ správní celek: "[[<%= ruler %>]]"
 
 prameny: <%= inspect(sources) %>
 tags: [sídlo/<%= significance %>]
-aliases:
+aliases: <%= inspect(aliases) %>
 ---
 # <%= name %>
 

@@ -3,6 +3,9 @@
     "aliases": "aliases",
     "cssclasses": "multitext",
     "tags": "tags",
-    "prameny": "multitext"
+    "prameny": "multitext",
+    "působnost": "multitext",
+    "vedení": "multitext",
+    "sídlo": "multitext"
   }
 }

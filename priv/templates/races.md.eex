@@ -3,7 +3,7 @@ geografická oblast: "[[<%= geo %>]]"
 
 prameny: <%= inspect(sources) %>
 tags: [rasa/<%= kind %>]
-aliases:
+aliases: <%= inspect(aliases) %>
 ---
 # <%= name %>
 

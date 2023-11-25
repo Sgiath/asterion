@@ -5,6 +5,6 @@ moc: <%= power %>
 
 prameny: <%= inspect(sources) %>
 tags: [myšlenková_bytost]
-aliases:
+aliases: <%= inspect(aliases) %>
 ---
 # <%= name %>

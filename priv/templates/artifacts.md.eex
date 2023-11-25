@@ -3,7 +3,7 @@ umístění: "[[<%= place %>]]"
 
 prameny: <%= inspect(sources) %>
 tags: [artefakt/<%= kind %>]
-aliases:
+aliases: <%= inspect(aliases) %>
 ---
 # <%= name %>
 

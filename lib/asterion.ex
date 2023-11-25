@@ -75,8 +75,11 @@ defmodule Asterion do
   end
 
   def places([name, geo, place, ruler, description, sig, sources | _rest]) do
+    {name, aliases} = format_name(name)
+
     [
       name: name,
+      aliases: aliases,
       geo: normalize_unknown(geo),
       place: normalize_unknown(place),
       ruler: normalize_unknown(ruler),
@@ -87,8 +90,11 @@ defmodule Asterion do
   end
 
   def people([name, sex, race, place, org, desc, status, sig, sources | _rest]) do
+    {name, aliases} = format_name(name)
+
     [
       name: name,
+      aliases: aliases,
       sex: sex,
       race: normalize_unknown(race),
       place: normalize_unknown(place),
@@ -101,14 +107,35 @@ defmodule Asterion do
   end
 
   def organizations([name, leadership, place, geo, expertise, desc, sources | _rest]) do
-    [name | aliases] = String.split(name, " / ")
+    [name | aliases1] = String.split(name, " / ")
+    [name | aliases2] = String.split(name, " (")
+
+    aliases = aliases1 ++ Enum.map(aliases2, &String.trim_trailing(&1, ")"))
+
+    leadership =
+      leadership
+      |> String.split(", ")
+      |> Enum.map(fn l ->
+        [l | _rest] = String.split(l, " (")
+
+        l
+        |> normalize_unknown()
+        |> String.replace("\"", "")
+      end)
+      |> Enum.reject(&(byte_size(&1) == 0))
+
+    place =
+      place
+      |> String.split(", ")
+      |> Enum.map(&normalize_unknown/1)
+      |> Enum.reject(&(byte_size(&1) == 0))
 
     [
       name: name,
       aliases: aliases,
-      leadership: normalize_unknown(leadership),
-      place: normalize_unknown(place),
-      geo: normalize_unknown(geo),
+      leadership: leadership,
+      place: place,
+      geo: format_geo(geo),
       expertise: String.split(expertise, ", "),
       description: desc,
       sources: format_sources(sources)
@@ -116,9 +143,12 @@ defmodule Asterion do
   end
 
   def races([name, geo, kind, desc, sources | _rest]) do
+    {name, aliases} = format_name(name)
+
     [
       name: name,
-      geo: normalize_unknown(geo),
+      aliases: aliases,
+      geo: format_geo(geo),
       kind: kind,
       description: desc,
       sources: format_sources(sources)
@@ -126,9 +156,12 @@ defmodule Asterion do
   end
 
   def fauna([name, kind, desc, geo, sources | _unique]) do
+    {name, aliases} = format_name(name)
+
     [
       name: name,
-      geo: normalize_unknown(geo),
+      aliases: aliases,
+      geo: format_geo(geo),
       kind: normalize_unknown(kind),
       description: desc,
       sources: format_sources(sources)
@@ -136,8 +169,11 @@ defmodule Asterion do
   end
 
   def thought_beings([name, kind, emotion, power, sources | _unique]) do
+    {name, aliases} = format_name(name)
+
     [
       name: name,
+      aliases: aliases,
       kind: kind,
       emotion: emotion,
       power: @power[power],
@@ -146,13 +182,41 @@ defmodule Asterion do
   end
 
   def artifacts([name, place, kind, desc, sources | _rest]) do
+    {name, aliases} = format_name(name)
+
     [
       name: name,
+      aliases: aliases,
       place: normalize_unknown(place),
       kind: kind,
       description: desc,
       sources: format_sources(sources)
     ]
+  end
+
+  defp format_name(name) do
+    [name | aliases] = String.split(name, " (")
+    {name, Enum.map(aliases, &String.trim_trailing(&1, ")"))}
+  end
+
+  defp format_geo(geo) do
+    geo
+    |> String.split(", ")
+    |> Enum.map(fn g ->
+      [g | _rest] = String.split(g, " (")
+      g
+      |> normalize_unknown()
+      |> String.trim_trailing(" a okolí")
+      # |> String.trim_leading("okolí ")
+    end)
+    |> Enum.map(fn
+      "Lendor a Tara" -> ["Lendor", "Tara"]
+      "okolí Athoru" -> "Athor"
+      "okrajově i sousedé" -> []
+      other -> other
+    end)
+    |> List.flatten()
+    |> Enum.reject(&(byte_size(&1) == 0))
   end
 
   defp format_sources(sources) when is_binary(sources) do
@@ -175,6 +239,12 @@ defmodule Asterion do
   defp normalize_unknown("?"), do: ""
   defp normalize_unknown("x"), do: ""
   defp normalize_unknown("nezávislý"), do: ""
+  defp normalize_unknown("klan"), do: ""
+  defp normalize_unknown("nestálá"), do: ""
+  defp normalize_unknown("rozné"), do: ""
+  defp normalize_unknown("větší města"), do: ""
+  defp normalize_unknown("na cestách"), do: ""
+  defp normalize_unknown("dříve " <> _any), do: ""
   defp normalize_unknown(known), do: known
 
   defp format_source("DD " <> pages), do: {"Dech Draka", pages}
@@ -196,12 +266,18 @@ defmodule Asterion do
   defp format_source("SJ " <> pages), do: {"Krajiny za obzorem: Stíny jihu", pages}
   defp format_source("PSS " <> pages), do: {"Pro smrt a slávu", pages}
   defp format_source("SŽ " <> pages), do: {"Sedmý živel", pages}
-  defp format_source("SVV " <> pages), do: {"Krajiny za obzorem: Sarindarské výsostné vody", pages}
+
+  defp format_source("SVV " <> pages),
+    do: {"Krajiny za obzorem: Sarindarské výsostné vody", pages}
+
   defp format_source("Kaat " <> pages), do: {"Kaat aneb historky Cechu Eldebranských katů", pages}
   defp format_source("ZMM " <> pages), do: {"Zrození Modrého měsíce", pages}
-  defp format_source("Smrťáček " <> pages), do: {"Krumpáč a motyky: Smrťáček aneb Cesta za smrtí a zase zpátky", pages}
+
+  defp format_source("Smrťáček " <> pages),
+    do: {"Krumpáč a motyky: Smrťáček aneb Cesta za smrtí a zase zpátky", pages}
+
   defp format_source("MP " <> pages), do: {"Město přízraků", pages}
-  defp format_source("CS " <> pages), do: {"Cesty snů", pages}
+  defp format_source("CS"), do: {"Cesty snů", nil}
   defp format_source("ZM " <> pages), do: {"Zpívající meč: Čajový drak a kočičí démon", pages}
   defp format_source("ŠVZ"), do: {"Stíny Erinu: Šíp v zádech", nil}
   defp format_source("HH " <> pages), do: {"Krumpáč a motyky: Hrobnické historky", pages}
@@ -213,8 +289,12 @@ defmodule Asterion do
   defp format_source("ZT " <> pages), do: {"Hry s příběhem 1: Zločin a trest", pages}
   defp format_source("OK " <> pages), do: {"Hry s příběhem 2: Ocel a krev", pages}
   defp format_source("VD " <> pages), do: {"Hry s příběhem 3: Volání divočiny", pages}
-  defp format_source("Temné časy " <> pages), do: {"mimoasterionský sborník povídek temné fantasy", pages}
+
+  defp format_source("Temné časy " <> pages),
+    do: {"mimoasterionský sborník povídek temné fantasy", pages}
+
   defp format_source(""), do: nil
+
   defp format_source(source) do
     [source | pages] = String.split(source, " ")
     {source, Enum.join(pages, " ")}

@@ -8,7 +8,7 @@ význam: <%= significance %>
 
 prameny: <%= inspect(sources) %>
 tags: [postava]
-aliases:
+aliases: <%= inspect(aliases) %>
 ---
 # <%= name %>
 

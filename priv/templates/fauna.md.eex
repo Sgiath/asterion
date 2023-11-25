@@ -3,7 +3,7 @@ oblast výskytu: "[[<%= geo %>]]"
 
 prameny: <%= inspect(sources) %>
 tags: [fauna/<%= kind %>]
-aliases:
+aliases: <%= inspect(aliases) %>
 ---
 # <%= name %>
 

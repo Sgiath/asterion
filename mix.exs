@@ -9,7 +9,7 @@ defmodule Asterion.MixProject do
       version: @version,
 
       # Elixir
-      elixir: "~> 1.15",
+      elixir: "~> 1.16",
       start_permanent: Mix.env() == :prod,
       deps: deps(),
 

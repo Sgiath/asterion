@@ -32,4 +32,3 @@ asterion-*.tar
 !/priv/export/books/
 /priv/export/.obsidian/workspace.json
 *.zip
-/.direnv/

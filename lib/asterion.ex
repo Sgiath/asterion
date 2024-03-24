@@ -204,9 +204,11 @@ defmodule Asterion do
     |> String.split(", ")
     |> Enum.map(fn g ->
       [g | _rest] = String.split(g, " (")
+
       g
       |> normalize_unknown()
       |> String.trim_trailing(" a okolí")
+
       # |> String.trim_leading("okolí ")
     end)
     |> Enum.map(fn
